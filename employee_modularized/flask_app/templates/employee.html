@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>look at this good worker!!!!!</h1>
+    <p>First name: {{employee.first_name}}</p>
+    {% if employee.middle_name != None %}
+    <p>Middle name: {{employee.middle_name}}</p>
+    {% endif %}
+    <p>Last name: {{employee.last_name}}</p>
+    <p>Salary: {{employee.salary}}</p>
+    <h2>edit this employee</h2>
+    <form action='/employees/{{employee.id}}/update' method=POST>
+        First name: <input type='text' name='first_name' value='{{employee.first_name}}'><br>
+        Middle name: <input type='text' name='middle_name' value='{{employee.middle_name}}'><br>
+        Last name: <input type='text' name='last_name' value='{{employee.last_name}}'><br>
+        Salary: <input type='number' name='salary' value='{{employee.salary}}'><br>
+        <input type='submit'>
+    </form>
+</body>
+</html>
