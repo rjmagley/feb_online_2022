@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>big corporation directory of departments</h1>
+    {% for department in departments %}
+    <h2>{{department.name}}</h2>
+    <p>Location: {{department.location}}</p>
+    <p>Employees:</p>
+    <ul>
+    {% for employee in department.employees %}
+        <li>{{employee.first_name}} {{employee.last_name}}</li>
+    {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h2>create new department</h2>
+    <form action='/departments/create' method='POST'>
+        Name: <input type='text' name='department_name'><br>
+        Location: <input type='text' name='department_location'><br>
+        <input type='submit'>
+    </form>
+
+    <h2>add a new employee</h2>
+
+    <form action='/employees/create' method=POST>
+        First name: <input type='text' name='first_name'><br>
+        Middle name: <input type='text' name='middle_name'><br>
+        Last name: <input type='text' name='last_name'><br>
+        Salary: <input type='number' name='salary'><br>
+        <select name='department_id'>
+            {% for department in departments %}
+            <option value='{{department.id}}'>{{department.name}}</option>
+            {% endfor %}
+        </select>
+
+        <input type='submit'>
+    </form>
+</body>
+</html>
