@@ -9,13 +9,18 @@
 <body>
     <h1>big corporation directory of departments</h1>
     {% for department in departments %}
-    <h2>{{department.name}}</h2>
+    <a href='/departments/{{department.id}}'><h2>{{department.name}}</h2></a>
     <p>Location: {{department.location}}</p>
+    <p>Total Salary Expenditure: {{department.total_salary()}}</p>
     <p>Employees:</p>
     <ul>
+    {% if department.employees|length != 0 %}
     {% for employee in department.employees %}
-        <li>{{employee.first_name}} {{employee.last_name}}</li>
+        <li>{{employee.full_name()}}</li>
     {% endfor %}
+    {% else %}
+        <p>No employees of this department.</p>
+    {% endif %}
     </ul>
     {% endfor %}
 

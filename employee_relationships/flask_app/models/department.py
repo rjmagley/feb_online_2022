@@ -12,6 +12,14 @@ class Department:
         self.updated_at = data['updated_at']
         self.employees = []
 
+    def total_salary(self):
+        salary = 0
+
+        for employee in self.employees:
+            salary += employee.salary
+
+        return salary
+
     # old way - just getting departments
     # @classmethod
     # def get_all_departments(cls):
@@ -45,14 +53,14 @@ class Department:
 
         for item in results:
 
-            print(item)
+            # print(item)
+            # print('\n')
 
             if item['id'] != new_department.id:
                 new_department = Department(item)
                 departments.append(new_department)
             
             if item['employees.id'] != None:
-                print("employees.id is not None")
                 employee_data = {
                     'id': item['employees.id'],
                     'first_name': item['first_name'],
@@ -79,3 +87,30 @@ class Department:
         result = connectToMySQL('employee_example').query_db(query, data)
 
         return result
+
+    @classmethod
+    def get_department(cls, data):
+        query = "SELECT * FROM departments LEFT JOIN employees ON departments.id = employees.department_id WHERE departments.id = %(id)s;"
+
+        results = connectToMySQL('employee_example').query_db(query, data)
+
+        new_department = Department(results[0])
+        
+        for item in results:
+            
+            if item['employees.id'] != None:
+                employee_data = {
+                    'id': item['employees.id'],
+                    'first_name': item['first_name'],
+                    'last_name': item['last_name'],
+                    'middle_name': item['middle_name'],
+                    'department_id': item['department_id'],
+                    'salary': item['salary'],
+                    'created_at': item['employees.created_at'],
+                    'updated_at': item['employees.updated_at'],
+                    'department': new_department
+                }
+                new_employee = Employee(employee_data)
+                new_department.employees.append(new_employee)
+
+        return new_department
